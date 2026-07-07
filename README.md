@@ -25,7 +25,6 @@ Gemini File Search handles chunking and embedding automatically using
 
 ## Daily job
 Runs via GitHub Actions daily at 03:00 UTC.
-Logs: https://github.com/<you>/docbot-vs-01/actions
 
 ## Notes
 - Uses Gemini API free tier (no billing required); free tier terms allow
