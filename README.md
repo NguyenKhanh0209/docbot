@@ -27,10 +27,6 @@ Gemini File Search handles chunking and embedding automatically using
 Runs via GitHub Actions daily at 03:00 UTC.
 Logs: https://github.com/<you>/docbot-vs-01/actions
 
-## Sample Q&A
-See `screenshot.png` — assistant answering "How do I add a YouTube video?"
-with cited Article URLs, tested via `uploader/test_chat.py`.
-
 ## Notes
 - Uses Gemini API free tier (no billing required); free tier terms allow
   Google to use inputs/outputs to improve products — acceptable here since
