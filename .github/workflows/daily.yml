@@ -1,0 +1,30 @@
+name: Daily OptiBot Sync
+on:
+  schedule:
+    - cron: '0 3 * * *'
+  workflow_dispatch: {}
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - run: pip install -r requirements.txt
+
+      - run: python main.py
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          FILE_SEARCH_STORE_NAME: ${{ secrets.FILE_SEARCH_STORE_NAME }}
+
+      - name: Commit updated hash state
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add state/
+          git commit -m "chore: update article hashes [skip ci]" || echo "no changes"
+          git push
