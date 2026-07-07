@@ -3,30 +3,83 @@
 Clone of OptiSigns' OptiBot support assistant, built on Google Gemini File Search.
 
 ## Setup
-1. `cp .env.sample .env` and fill in `GEMINI_API_KEY`
-2. `pip install -r requirements.txt`
-3. `python uploader/create_store.py` (auto-creates a File Search Store; copy the printed name into `.env`)
+
+1. Clone the repository.
+
+2. Copy the environment file.
+
+```bash
+cp .env.sample .env
+```
+
+3. Add your `GEMINI_API_KEY` to `.env`.
+
+4. Install dependencies.
+
+```bash
+pip install -r requirements.txt
+```
+
+5. Create a Gemini File Search Store.
+
+```bash
+python uploader/create_store.py
+```
+
+6. Copy the generated `FILE_SEARCH_STORE_NAME` into `.env`.
+
+---
 
 ## Run locally
+
+Run the project with:
+
 ```bash
 python main.py
 ```
-This scrapes support.optisigns.com, diffs against `state/article_hashes.json`
-(SHA-256 per article), and uploads only added/updated files to the Gemini
-File Search Store, which auto-embeds and indexes them.
 
-## Chunking strategy
-Gemini File Search handles chunking and embedding automatically using
-`gemini-embedding-001` — no manual chunk-size configuration is exposed via API.
+This will:
 
-## Stats (last run)
-- Files scraped: 405 (support.optisigns.com, all categories)
-- Files indexed in vector store: [điền số từ check_status.py]
+- Scrape articles from `support.optisigns.com`
+- Convert HTML to Markdown
+- Detect new or updated articles using SHA-256 hashes
+- Upload only the delta to the Gemini File Search Store
 
-## Daily job
-Runs via GitHub Actions daily at 03:00 UTC.
+
+
+---
+
+## Statistics
+
+- Articles scraped: **405**
+- Files indexed in File Search Store: **405**
+
+---
+
+## Daily Job
+
+Runs automatically every day at **03:00 UTC** using GitHub Actions.
+
+Workflow:
+
+`/.github/workflows/daily.yml`
+
+Latest runs:
+
+`https://github.com/NguyenKhanh0209/docbot/actions`
+
+---
+
+## Sample Result
+
+The assistant correctly answers the sample question with article citations.
+
+![Assistant Answer](docs/assistant-answer.png)
+
+---
 
 ## Notes
-- Uses Gemini API free tier (no billing required); free tier terms allow
-  Google to use inputs/outputs to improve products — acceptable here since
-  source data is already public support documentation.
+
+- Uses the Gemini API Free Tier.
+- API keys are managed through environment variables or GitHub Secrets.
+- No secrets are hard-coded in the repository.
